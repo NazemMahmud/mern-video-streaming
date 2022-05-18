@@ -89,6 +89,12 @@
         font-size: 22px;
         cursor: pointer;
       }
+
+      button.registerButton:disabled {
+        background-color: #ddd8d8;
+        color: black;
+        cursor: not-allowed;
+      }
     }
   }
 }
