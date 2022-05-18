@@ -4,9 +4,11 @@ import "./Register.scss";
 import logo from '../../../assets/images/logo.png'
 import {checkDisableButton} from "../../../utility/utils";
 import {Link, useNavigate} from "react-router-dom";
+import {Alert, Slide, Snackbar} from "@mui/material";
+import {registration} from "../../../services/Authentication/auth.service";
 
 const Register = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [isDisabled, setIsDisabled] = useState(true);
     const [isValid, setIsValid] = useState(false);
 
@@ -37,10 +39,32 @@ const Register = () => {
     );
     const inputKeys = Object.keys(formInput);
 
+    /******* Snackbar related property start **************************/
+    const SlideTransition = props => {
+        return <Slide {...props} direction="right"/>;
+    }
+
+    const [snackData, setSnackData] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+        message: '',
+        Transition: SlideTransition,
+        type: ''
+    });
+    const {vertical, horizontal, open, message, type} = snackData;
+    const snackClose = () => {
+        setSnackData({
+            ...snackData,
+            open: false
+        });
+    };
+    /******* Snackbar related property end **************************/
+
     // to enable/disable submit button
     useEffect(() => {
-        setIsDisabled(checkDisableButton(formInput))
-    }, [formInput])
+        setIsDisabled(checkDisableButton(formInput));
+    }, [formInput]);
 
     const formValidation = (input, inputIdentifier) => {
         switch (inputIdentifier) {
@@ -61,20 +85,55 @@ const Register = () => {
     const handleInput = (event, inputIdentifier) => {
         const input = formInput[inputIdentifier];
         input.value = event.target.value;
-        input.touched = true
+        input.touched = true;
         formValidation(input, inputIdentifier);
     };
 
     const handleGetStart = () => {
         setIsValid(formInput.email.isValid);
     };
-    const handleFinish = async (e) => {
-        e.preventDefault();
+
+    // format data before submit
+    const formatSubmitData = () => {
+        const data = {};
+        for (let loginData in formInput) {
+            data[loginData] = formInput[loginData].value;
+        }
+
+        return data;
+    };
+
+    // sign up action
+    const signUp = async event => {
+        event.preventDefault();
+        const formData = formatSubmitData();
+
+        await registration(formData)
+            .then(response => {
+                navigate("/login");
+            })
+            .catch(error => {
+                console.log('error..', error)
+                setSnackData({
+                    ...snackData,
+                    open: true,
+                    type: 'error',
+                    message: error.response.data.message
+                })
+            });
+        // TODO: add a loader
     };
 
 
     return (
         <div className="register">
+            <Snackbar
+                anchorOrigin={{vertical, horizontal}}
+                open={open}
+                onClose={snackClose}
+                key={vertical + horizontal}>
+                <Alert severity={type}> {message}</Alert>
+            </Snackbar>
             <div className="top">
                 <div className="wrapper">
                     <img
@@ -103,14 +162,14 @@ const Register = () => {
                         </button>
                     </div>
                 ) : (
-                    <form className="input">
+                    <form className="input" onSubmit={signUp}>
                         <input type="text" placeholder="username" required id="name"
                                name={formInput.name.name} onChange={event => handleInput(event, inputKeys[0])}/>
                         <input type="password" placeholder="password" required id="password"
                                name={formInput.password.name}
                                onChange={event => handleInput(event, inputKeys[2])}
                         />
-                        <button className="registerButton" disabled={isDisabled} onClick={handleFinish}>
+                        <button className="registerButton" disabled={isDisabled} type="submit">
                             Start
                         </button>
                     </form>

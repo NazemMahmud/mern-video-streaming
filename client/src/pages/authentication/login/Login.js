@@ -3,11 +3,16 @@ import {useState} from "react";
 import "./Login.scss";
 import logo from '../../../assets/images/logo.png'
 import {checkDisableButton} from "../../../utility/utils";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {login} from "../../../services/Authentication/auth.service";
+import {useDispatch} from "react-redux";
+import {handleLogin} from "../../../redux/authentication";
+import {Alert, Slide, Snackbar} from "@mui/material";
 
 
 const Login = () => {
-    // const { dispatch } = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [isDisabled, setIsDisabled] = useState(true);
     const [formInput, setFormInput] = useReducer(
@@ -31,6 +36,28 @@ const Login = () => {
     );
     const inputKeys = Object.keys(formInput);
 
+    /******* Snackbar related property start **************************/
+    const SlideTransition = props => {
+        return <Slide {...props} direction="right" />;
+    }
+
+    const [snackData, setSnackData] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+        message: '',
+        Transition: SlideTransition,
+        type: ''
+    });
+    const {vertical, horizontal, open, message, type} = snackData;
+    const snackClose = () => {
+        setSnackData({
+            ...snackData,
+            open: false
+        })
+    }
+    /******* Snackbar related property end **************************/
+
     // to enable/disable submit button
     useEffect(() => {
         setIsDisabled(checkDisableButton(formInput))
@@ -48,7 +75,7 @@ const Login = () => {
         setFormInput({...formInput, [inputIdentifier]: input});
     };
 
-
+    // input validation
     const handleInput = (event, inputIdentifier) => {
         const input = formInput[inputIdentifier];
         input.value = event.target.value;
@@ -56,14 +83,43 @@ const Login = () => {
         formValidation(input, inputIdentifier);
     };
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        console.log(formInput);
-        // login({ email, password }, dispatch);
+    // format data before submit
+    const formatSubmitData = () => {
+        const data = {};
+        for (let loginData in formInput) {
+            data[loginData] = formInput[loginData].value;
+        }
+        return data;
+    }
+
+    const signIn = async event => {
+        event.preventDefault();
+        const formData = formatSubmitData()
+
+        await login(formData)
+            .then(response => {
+                dispatch(handleLogin(response.data.data));
+                navigate("/");
+            })
+            .catch(error => {
+                setSnackData({
+                    ...snackData,
+                    open: true,
+                    type: 'error',
+                    message: error.response.data.message
+                })
+            });
+        // TODO: add a loader
     };
 
     return (
         <div className="login">
+            <Snackbar  anchorOrigin={{vertical, horizontal}}
+                       open={open}
+                       onClose={snackClose}
+                       key={vertical + horizontal}>
+                <Alert severity={type}> {message}</Alert>
+            </Snackbar>
             <div className="top">
                 <div className="wrapper">
                     <img
@@ -83,7 +139,7 @@ const Login = () => {
                         name={formInput.password.name}
                         id="password"
                         onChange={event => handleInput(event, inputKeys[1])}/>
-                    <button className="loginButton" disabled={isDisabled} onClick={handleLogin} >
+                    <button className="loginButton" disabled={isDisabled} onClick={signIn} >
                         Sign In
                     </button>
                     <span> New to Msflix?
