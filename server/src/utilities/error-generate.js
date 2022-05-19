@@ -51,3 +51,11 @@ export class ValidationErrors extends CommonErrors {
     }
     getStatusCode() { return 422; }
 }
+
+export class ForbiddenErrors extends CommonErrors {
+    constructor(message) {
+        super(message);
+        this.name = 'PermissionDenied';
+    }
+    getStatusCode() { return 403; }
+}

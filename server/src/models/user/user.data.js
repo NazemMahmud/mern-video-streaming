@@ -19,8 +19,15 @@ const createNew = async data => {
     return model.save();
 }
 
+// get all users list
+const findAll = async () => {
+    // LATER: add pagination when necessary
+    return UserModel.find();
+};
+
 export const User = {
     model: UserModel,
     getOne,
-    createNew
+    createNew,
+    findAll
 }

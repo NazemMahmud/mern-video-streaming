@@ -8,13 +8,14 @@ export const generateToken = user => {
             payload: {
                 id: user.id,
                 email: user.email,
-                name: user.name
+                name: user.name,
+                isAdmin: user.isAdmin
             }
         },
         JWT_SECRET_KEY, {
             expiresIn: 86400 // 24 hours
         });
-}
+};
 
 export const verifyToken = token => {
     return jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
