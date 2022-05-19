@@ -40,7 +40,7 @@ export const handleValidation = validate => {
         })
         // console.log('messages array: ', messages);
         const error = new ValidationErrors(messages);
-        return errorResponse(res, error)
+        return errorResponse(res, error);
         // Validate error sample
         /**
           [Error [ValidationError]: "email" must be a valid email] {

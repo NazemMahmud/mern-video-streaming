@@ -5,7 +5,6 @@ import Register from "./pages/authentication/register/Register";
 import Login from "./pages/authentication/login/Login";
 import {getAccessToken, isUserLoggedIn} from "./utility/utils";
 import PageNotFound from "./pages/PageNotFound";
-import {store} from "./redux/store";
 
 
 const App = () => {
