@@ -9,7 +9,5 @@ const Model = User;
  */
 export const getUsersList = async queryParams => {
     // LATER: add pagination
-    return {
-        data: await Model.findAll()
-    };
+    return Model.findAll() ;
 };

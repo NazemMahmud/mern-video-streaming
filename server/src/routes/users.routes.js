@@ -7,7 +7,7 @@ const userRouter = express.Router();
 //GET ALL
 userRouter.get("/", authenticateRequest, UserController.getAllUsers);
 // GET single user
-// userRouter.get("/find/:id", authenticateRequest, UserController);
+userRouter.get("/:id", authenticateRequest, UserController.getUser);
 // GET USER STATS
 // userRouter.get("/stats", authenticateRequest, UserController);
 // UPDATE
