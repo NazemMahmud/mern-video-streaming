@@ -1,5 +1,5 @@
 import MongoDbError from "../utilities/mongo.error.js";
-import {FAILED_STATUS, SUCCESS_STATUS} from "../config/serverAppConfig.js";
+import {FAILED_STATUS, SUCCESS_STATUS} from "../config/constants.js";
 
 export const errorResponse = (res, err) => {
     err = err.name === "MongoServerError" ? MongoDbError(err) : err;

@@ -1,5 +1,5 @@
 import {handleError} from "../middlewares/index.js";
-import {successResponse} from "../helpers/httpResponse.helper.js";
+import {errorResponse, successResponse} from "../helpers/httpResponse.helper.js";
 import {isAdmin} from "../helpers/permission.helper.js";
 import {getSingleUser, getUsersList} from "../services/user.service.js";
 import UserViewModel from "../models/user/users.view.js";
@@ -25,6 +25,7 @@ const getAllUsers = async (req, res, next) => {
 
 /**
  * get single user info
+ * 2 error handle: id is in DB; id is valid string
  * @param req
  * @param res
  * @param next
@@ -35,6 +36,7 @@ const getUser = async (req, res, next) => {
         const user = await getSingleUser(req.params.id);
         successResponse(res, UserViewModel.getUser(user));
     } catch (err) {
+        console.log(err);
         handleError(err, req, res, next);
     }
 };
