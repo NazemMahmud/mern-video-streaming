@@ -34,7 +34,7 @@ export const createUser = async request => {
  * @returns {Promise<{data: {id, email: *, username}}>}
  */
 export const loginUser = async request => {
-    const user = await Model.getOne({email: request.email});
+    const user = await Model.findOne({email: request.email});
     if(!user) {
         throw new NotFoundError("User not found");
     }

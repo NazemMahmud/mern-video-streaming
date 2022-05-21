@@ -7,7 +7,7 @@ import {isAdmin} from "../middlewares/permissions.middleware.js";
 const movieRouter = express.Router();
 
 // tasks: handle authenticate user, admin user, form validation
-movieRouter.post("/", authenticateRequest, handleValidation(isAdmin), MovieController.store);
+movieRouter.post("/", [authenticateRequest, isAdmin], MovieController.store);
 // movieRouter.get("/", authenticateRequest, MovieController.getAll); // GET ALL
 // movieRouter.get("/", authenticateRequest, MovieController.show); // GET single
 // movieRouter.put("/:id", authenticateRequest, MovieController); // UPDATE

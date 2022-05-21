@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const MoviesSchema = new mongoose.Schema({
+export const MovieSchema = new mongoose.Schema({
         title: {
             type: String,
             required: [true, "Title is required"],
@@ -22,6 +22,6 @@ export const MoviesSchema = new mongoose.Schema({
     }
 );
 
-MoviesSchema.set('toJSON', { virtuals: true });
+MovieSchema.set('toJSON', { virtuals: true });
 
-export const MovieModel = mongoose.model("Movie", MoviesSchema);
+export const MovieModel = mongoose.model("Movie", MovieSchema);
