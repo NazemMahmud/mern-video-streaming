@@ -25,8 +25,23 @@ const getAllUsers = users => {
     }
 }
 
+const getUser = user => {
+    return {
+        data: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            profilePicture: user.profilePicture,
+            isAdmin: user.isAdmin,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+            id: user.id,
+        }
+    }
+}
+
 const UserViewModel = {
-    authUser, getAllUsers
+    authUser, getAllUsers, getUser
 };
 
 export default UserViewModel;

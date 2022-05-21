@@ -1,7 +1,7 @@
 import {handleError} from "../middlewares/index.js";
 import {successResponse} from "../helpers/httpResponse.helper.js";
 import {isAdmin} from "../helpers/permission.helper.js";
-import {getUsersList} from "../services/user.service.js";
+import {getSingleUser, getUsersList} from "../services/user.service.js";
 import UserViewModel from "../models/user/users.view.js";
 
 
@@ -23,17 +23,18 @@ const getAllUsers = async (req, res, next) => {
     }
 };
 
+/**
+ * get single user info
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<void>}
+ */
 const getUser = async (req, res, next) => {
     try {
-        // const user = await User.findById(req.params.id);
-        // const { password, ...info } = user._doc;
-        // res.status(200).json(info);
-        //
-        // const user = await UserService.getLoggedInUser(req.user.id);
-        // res.status(200).send(UserViewModel.authUser(user));
+        const user = await getSingleUser(req.params.id);
+        successResponse(res, UserViewModel.getUser(user));
     } catch (err) {
-        // res.status(500).json(err);
-        //
         handleError(err, req, res, next);
     }
 };

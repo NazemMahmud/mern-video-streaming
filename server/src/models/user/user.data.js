@@ -5,7 +5,7 @@ import {UserModel} from "./user.schema.js";
  * @param condition
  * @returns {Promise<Query<any, any, {}, any>>}
  */
-const getOne = async condition => {
+const findOne = async condition => {
     return UserModel.findOne(condition);
 }
 
@@ -27,7 +27,7 @@ const findAll = async () => {
 
 export const User = {
     model: UserModel,
-    getOne,
+    findOne,
     createNew,
     findAll
 }
