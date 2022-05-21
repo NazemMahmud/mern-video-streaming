@@ -1,10 +1,7 @@
 import {handleError} from "../middlewares/index.js";
 import {errorResponse, successResponse} from "../helpers/httpResponse.helper.js";
-import {isAdmin} from "../helpers/permission.helper.js";
-import {getSingleUser, getUsersList} from "../services/user.service.js";
 import UserViewModel from "../models/user/users.view.js";
-import {authenticateRequest} from "../middlewares/authenticate.middlewares.js";
-import movieRouter from "../routes/movies.routes.js";
+import {createNew} from "../services/movies.service.js";
 
 
 /**
@@ -14,13 +11,12 @@ import movieRouter from "../routes/movies.routes.js";
  * @returns {Promise<void>}
  */
 const store = async (req, res, next) => {
-    // tasks: validation check before come here
     try {
-    //  newMovie = new Movie(req.body); // ne movie object
-    //  const savedMovie = await newMovie.save(); // save
+        const response = await createNew(req.body);
+        // successResponse(res, response)
     //     successResponse(res, UserViewModel.getAllUsers(users)); // 201 created
     } catch (err) {
-    //     handleError(err, req, res, next); //  res.status(500).json(err);
+        handleError(err, req, res, next);
     }
 };
 
@@ -62,4 +58,4 @@ const show = async (req, res, next) => {
 };
 
 
-export const MovieController = { store, getAll, show };
+export const MoviesController = { store, getAll, show };

@@ -6,8 +6,8 @@ export const MovieSchema = new mongoose.Schema({
             required: [true, "Title is required"],
             unique: true
         },
-        description: { type: String },
-        img: { type: String },
+        description: { type: String, required: [true, "Description is required"]},
+        img: { type: String, required: [true, "At least an image is required"] },
         imageTitle: { type: String },
         imageSmall: { type: String },
         trailer: { type: String },

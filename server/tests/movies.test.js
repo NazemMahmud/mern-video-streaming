@@ -42,24 +42,22 @@ describe('Movie store test', () => {
         });
     });
 
-    // Test 2
+    // Test 3
     it("Error: required field missing (multi error)", async () => {
-        // const result = await request(app).post(API)
-        //      .set('Authorization', `Bearer ${notAdminToken}`).send();
-        // expect(result.statusCode).toEqual(401);
+        const result = await request(app).post(API)
+             .set('Authorization', `Bearer ${token}`).send();
+        expect(result.statusCode).toEqual(422);
+        expect(result.body).toHaveProperty('data');
+        expect(result.body).toHaveProperty('message');
+        expect(result.body).toHaveProperty('status');
+        expect(result.body.data).toEqual(null);
+        expect(result.body.status).toEqual('failed');
         // expect(result.body).toEqual({
         //     "data": null,
-        //     "message": "Unauthenticated request",
+        //     "": "Unauthenticated request",
         //     "status": "failed"
         // });
     });
-    //     title: {
-    //         type: String,
-    //             required: [true, "Title is required"],
-    //             unique: true
-    //     },
-    //     description: { type: String },
-    //     img: { type: String },
     //     imageTitle: { type: String },
     //     imageSmall: { type: String },
     //     trailer: { type: String },
@@ -69,12 +67,9 @@ describe('Movie store test', () => {
     //     genre: { type: String },
     //     isMovie: { type: Boolean, default: true },
     // },
-    // {
-    //     timestamps: true
-    // }
 
-    // Test 2: required field empty
-    // Test 3: required field not matching
+    // Test 4: required field empty
+    // Test 5: required field not matching
     // Test 6: DB error for unique keys
     // Test 7: perfect store
 
