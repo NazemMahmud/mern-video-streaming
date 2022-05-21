@@ -5,7 +5,7 @@ import {UserModel} from "./user.schema.js";
  * @param condition
  * @returns {Promise<Query<any, any, {}, any>>}
  */
-const getOne = async condition => {
+const findOne = async condition => {
     return UserModel.findOne(condition);
 }
 
@@ -19,8 +19,15 @@ const createNew = async data => {
     return model.save();
 }
 
+// get all users list
+const findAll = async () => {
+    // LATER: add pagination when necessary
+    return UserModel.find();
+};
+
 export const User = {
     model: UserModel,
-    getOne,
-    createNew
+    findOne,
+    createNew,
+    findAll
 }

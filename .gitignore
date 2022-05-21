@@ -108,3 +108,8 @@ dist
 # IDE environment
 .idea
 .vscode
+
+
+# package files
+server/package-lock.json
+client/package-lock.json

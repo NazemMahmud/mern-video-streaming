@@ -3,9 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Home from "./pages/home/Home";
 import Register from "./pages/authentication/register/Register";
 import Login from "./pages/authentication/login/Login";
-import {getAccessToken, isUserLoggedIn} from "./utility/utils";
+import {getAccessToken} from "./utility/utils";
 import PageNotFound from "./pages/PageNotFound";
-import {store} from "./redux/store";
 
 
 const App = () => {
