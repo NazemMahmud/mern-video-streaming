@@ -1,20 +1,19 @@
 import {handleError} from "../middlewares/index.js";
-import {errorResponse, successResponse} from "../helpers/httpResponse.helper.js";
-import UserViewModel from "../models/user/users.view.js";
+import {successResponse} from "../helpers/httpResponse.helper.js";
 import {createNew} from "../services/movies.service.js";
 
 
 /**
  * store a movie info: only for admin
  * @param req
- * @param res
+ * @param res 201
  * @returns {Promise<void>}
  */
 const store = async (req, res, next) => {
     try {
         const response = await createNew(req.body);
-        // successResponse(res, response)
-    //     successResponse(res, UserViewModel.getAllUsers(users)); // 201 created
+        successResponse(res, response); // TODO: add view model
+    //     successResponse(res, UserViewModel.getAllUsers(users));
     } catch (err) {
         handleError(err, req, res, next);
     }

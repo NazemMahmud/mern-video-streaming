@@ -14,4 +14,4 @@ const createNew = async data => {
 export const Movie = {
     model: MovieModel,
     createNew,
-}
+};
