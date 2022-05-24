@@ -38,7 +38,9 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+server/node_modules/
+client/node_modules/
+admin/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -113,3 +115,4 @@ dist
 # package files
 server/package-lock.json
 client/package-lock.json
+admin/package-lock.json
