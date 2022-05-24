@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {isUserLoggedIn} from "../../utility/utils";
 import {useNavigate} from "react-router-dom";
+import "./Home.scss";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Home = () => {
     }, []);
 
     return (
-      <div style={{ margin: '0 auto'}}>
+      <div style={{ margin: '0 auto'}} className="home">
           <h1>Admin Home page</h1>
       </div>
     );
